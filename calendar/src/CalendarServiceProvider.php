@@ -1,16 +1,14 @@
 <?php namespace Trainer\Calendar;
 
-use Config;
+use Illuminate\Config;
 
 class CalendarServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 	public function boot()
 	{
-		$modules = config("trainer.modules");
-		while (list(,$module) = each($modules)) {
-			$this->_loadRoutes($module);
-			$this->_loadConfig($module);
-		}
+		$this->_loadRoutes();
+		$this->_loadConfig();
+
 	}
 
 	public function register()
@@ -21,10 +19,10 @@ class CalendarServiceProvider extends \Illuminate\Support\ServiceProvider
 	 * Load the routes for each module
 	 * @param string $module
 	 */
-	private function _loadRoutes($module)
+	private function _loadRoutes()
 	{
-		if(file_exists(__DIR__.'/'.$module.'/routes.php')) {
-			include __DIR__ . '/' . $module . '/routes.php';
+		if(file_exists(__DIR__.'/routes.php')) {
+			include __DIR__ . '/routes.php';
 		}
 	}
 
@@ -35,10 +33,10 @@ class CalendarServiceProvider extends \Illuminate\Support\ServiceProvider
 	 * e.g.: Config::get({module_name}.key)
 	 * @param string $module
 	 */
-	private function _loadConfig($module)
+	private function _loadConfig()
 	{
-		if(is_dir(__DIR__.'/'.$module.'/config')) {
-			$config_files = glob(__DIR__.'/'.$module.'/config/*.php');
+		if(is_dir(__DIR__.'/config')) {
+			$config_files = glob(__DIR__.'/config/*.php');
 			$this->publishes($config_files, 'trainers');
 			foreach($config_files as $config_file) {
 				$fileName = basename($config_file, '.php');
