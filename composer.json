@@ -14,8 +14,7 @@
 
     "autoload": {
       "psr-4": {
-        "Trainer\\Calendar\\": ""
-      },
-      "classmap": [ "src" ]
+        "Trainer\\Calendar\\": "src"
+      }
     }
 }
