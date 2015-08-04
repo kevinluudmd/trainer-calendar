@@ -1,18 +1,16 @@
 <?php namespace Trainer\Calendar;
 
-use Illuminate\Config;
 
 class CalendarServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 	public function boot()
 	{
 		$this->_loadRoutes();
-		$this->_loadConfig();
-
 	}
 
 	public function register()
 	{
+		$this->_loadConfig();
 	}
 
 	/**
@@ -37,11 +35,11 @@ class CalendarServiceProvider extends \Illuminate\Support\ServiceProvider
 	{
 		if(is_dir(__DIR__.'/config')) {
 			$config_files = glob(__DIR__.'/config/*.php');
-			$this->publishes($config_files, 'trainers');
+			$config = $this->app->config;
 			foreach($config_files as $config_file) {
 				$fileName = basename($config_file, '.php');
-				Config::set($fileName, array_merge_recursive(
-					include $config_file, Config::get($fileName, [])
+				$config->set($fileName, array_merge_recursive(
+					include $config_file, $config->get($fileName, [])
 				));
 			}
 		}
