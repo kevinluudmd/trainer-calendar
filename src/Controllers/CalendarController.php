@@ -17,7 +17,7 @@ class CalendarController extends Controller
     public function index()
     {
         //
-		dd('a');
+		dd('im in calendarcontroller');
 		
     }
 
